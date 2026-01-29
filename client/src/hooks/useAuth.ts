@@ -26,13 +26,20 @@ export const useAuth = () => {
         const response = await apiClient.get('/api/auth/me');
         return response.data.user;
       } catch (error: any) {
-        if (error.response?.status === 401) {
+        // Return null for any auth errors instead of throwing
+        if (error.response?.status === 401 || error.response?.status === 403) {
           return null;
         }
-        throw error;
+        // For network errors or other issues, also return null to prevent infinite loading
+        console.error('Auth check failed:', error.message);
+        return null;
       }
     },
     retry: false,
+    staleTime: Infinity, // Don't refetch automatically
+    refetchOnMount: false,
+    refetchOnWindowFocus: false,
+    refetchOnReconnect: false,
   });
 
   const loginMutation = useMutation({

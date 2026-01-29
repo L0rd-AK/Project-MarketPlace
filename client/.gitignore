@@ -37,3 +37,4 @@ server/uploads/*
 
 # OS
 Thumbs.db
+.vercel

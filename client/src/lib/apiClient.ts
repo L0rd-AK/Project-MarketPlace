@@ -14,12 +14,8 @@ export const apiClient = axios.create({
 apiClient.interceptors.response.use(
   (response) => response,
   (error) => {
-    if (error.response?.status === 401) {
-      // Redirect to login on unauthorized
-      if (!window.location.pathname.includes('/login')) {
-        window.location.href = '/login';
-      }
-    }
+    // Don't redirect on 401 - let the components handle auth state
+    // The useAuth hook will return null and App.tsx will redirect appropriately
     return Promise.reject(error);
   }
 );
