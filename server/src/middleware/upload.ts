@@ -4,11 +4,21 @@ import crypto from 'crypto';
 import fs from 'fs';
 
 const MAX_FILE_SIZE = parseInt(process.env.MAX_FILE_SIZE || '26214400'); // 25MB default
-const UPLOAD_DIR = process.env.UPLOAD_DIR || './uploads';
+
+// Use /tmp directory in serverless environments (Vercel)
+// WARNING: Files in /tmp are ephemeral and will be deleted when the function stops
+// For production, consider using cloud storage (AWS S3, Cloudinary, etc.)
+const UPLOAD_DIR = process.env.NODE_ENV === 'production' 
+  ? '/tmp/uploads' 
+  : (process.env.UPLOAD_DIR || './uploads');
 
 // Ensure upload directory exists
-if (!fs.existsSync(UPLOAD_DIR)) {
-  fs.mkdirSync(UPLOAD_DIR, { recursive: true });
+try {
+  if (!fs.existsSync(UPLOAD_DIR)) {
+    fs.mkdirSync(UPLOAD_DIR, { recursive: true });
+  }
+} catch (error) {
+  console.error('Failed to create upload directory:', error);
 }
 
 const storage = multer.diskStorage({
