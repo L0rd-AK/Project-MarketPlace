@@ -1,0 +1,19 @@
+{
+  "name": "project-marketplace-workflow",
+  "version": "1.0.0",
+  "description": "Production-quality MERN project marketplace with role-based workflow",
+  "scripts": {
+    "dev": "concurrently \"npm run dev:server\" \"npm run dev:client\"",
+    "dev:server": "cd server && npm run dev",
+    "dev:client": "cd client && npm run dev",
+    "build": "cd server && npm run build && cd ../client && npm run build",
+    "seed": "cd server && npm run seed",
+    "install:all": "npm install && cd server && npm install && cd ../client && npm install"
+  },
+  "keywords": ["marketplace", "workflow", "MERN", "typescript"],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}
