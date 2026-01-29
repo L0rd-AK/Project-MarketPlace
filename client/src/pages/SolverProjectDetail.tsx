@@ -4,7 +4,7 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { motion } from 'framer-motion';
 import toast from 'react-hot-toast';
 import apiClient from '../lib/apiClient';
-import { Project, Task } from '../types';
+import { Task, UserRole } from '../types';
 import DashboardLayout from '../components/DashboardLayout';
 import TaskStatusTimeline from '../components/TaskStatusTimeline';
 
@@ -99,7 +99,7 @@ export default function SolverProjectDetail() {
   const tasks = tasksData || [];
 
   return (
-    <DashboardLayout role="SOLVER">
+    <DashboardLayout role={UserRole.SOLVER}>
       <div className="space-y-8">
         <motion.div
           initial={{ opacity: 0, y: 20 }}

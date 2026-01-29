@@ -2,7 +2,7 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { motion } from 'framer-motion';
 import toast from 'react-hot-toast';
 import apiClient from '../lib/apiClient';
-import { User, Project } from '../types';
+import { User, Project, UserRole } from '../types';
 import DashboardLayout from '../components/DashboardLayout';
 
 export default function AdminDashboard() {
@@ -41,7 +41,7 @@ export default function AdminDashboard() {
   const projects = projectsData || [];
 
   return (
-    <DashboardLayout role="ADMIN">
+    <DashboardLayout role={UserRole.ADMIN}>
       <div className="space-y-8">
         <motion.div
           initial={{ opacity: 0, y: 20 }}

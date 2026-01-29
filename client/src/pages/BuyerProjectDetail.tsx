@@ -3,7 +3,7 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { motion } from 'framer-motion';
 import toast from 'react-hot-toast';
 import apiClient from '../lib/apiClient';
-import { Project, WorkRequest, Task, Submission } from '../types';
+import { Project, WorkRequest, UserRole } from '../types';
 import DashboardLayout from '../components/DashboardLayout';
 import LifecycleStepper from '../components/LifecycleStepper';
 
@@ -42,25 +42,26 @@ export default function BuyerProjectDetail() {
     },
   });
 
-  const reviewSubmissionMutation = useMutation({
-    mutationFn: async ({ taskId, decision, feedback }: { taskId: string; decision: 'ACCEPT' | 'REJECT'; feedback?: string }) => {
-      await apiClient.post(`/api/buyer/tasks/${taskId}/review`, { decision, feedback });
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['buyer', 'projects', id, 'tasks'] });
-      toast.success('Review submitted successfully!');
-    },
-    onError: (error: any) => {
-      toast.error(error.response?.data?.error || 'Failed to review submission');
-    },
-  });
+  // Review submission mutation - currently not used in this view
+  // const reviewSubmissionMutation = useMutation({
+  //   mutationFn: async ({ taskId, decision, feedback }: { taskId: string; decision: 'ACCEPT' | 'REJECT'; feedback?: string }) => {
+  //     await apiClient.post(`/api/buyer/tasks/${taskId}/review`, { decision, feedback });
+  //   },
+  //   onSuccess: () => {
+  //     queryClient.invalidateQueries({ queryKey: ['buyer', 'projects', id, 'tasks'] });
+  //     toast.success('Review submitted successfully!');
+  //   },
+  //   onError: (error: any) => {
+  //     toast.error(error.response?.data?.error || 'Failed to review submission');
+  //   },
+  // });
 
   const project = projectData;
   const requests = requestsData || [];
 
   if (!project) {
     return (
-      <DashboardLayout role="BUYER">
+      <DashboardLayout role={UserRole.BUYER}>
         <div className="flex items-center justify-center h-64">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
         </div>
@@ -69,7 +70,7 @@ export default function BuyerProjectDetail() {
   }
 
   return (
-    <DashboardLayout role="BUYER">
+    <DashboardLayout role={UserRole.BUYER}>
       <div className="space-y-8">
         {/* Project Header */}
         <motion.div

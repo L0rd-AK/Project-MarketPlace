@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import toast from 'react-hot-toast';
 import apiClient from '../lib/apiClient';
-import { SolverProfile, Project } from '../types';
+import { SolverProfile, Project, UserRole } from '../types';
 import DashboardLayout from '../components/DashboardLayout';
 
 export default function SolverDashboard() {
@@ -83,7 +83,7 @@ export default function SolverDashboard() {
   const assignedProjects = assignedProjectsData || [];
 
   return (
-    <DashboardLayout role="SOLVER">
+    <DashboardLayout role={UserRole.SOLVER}>
       <div className="space-y-8">
         <motion.div
           initial={{ opacity: 0, y: 20 }}

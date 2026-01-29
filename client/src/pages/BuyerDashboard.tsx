@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import toast from 'react-hot-toast';
 import apiClient from '../lib/apiClient';
-import { Project } from '../types';
+import { Project, UserRole } from '../types';
 import DashboardLayout from '../components/DashboardLayout';
 
 export default function BuyerDashboard() {
@@ -46,7 +46,7 @@ export default function BuyerDashboard() {
   const projects = projectsData || [];
 
   return (
-    <DashboardLayout role="BUYER">
+    <DashboardLayout role={UserRole.BUYER}>
       <div className="space-y-8">
         <motion.div
           initial={{ opacity: 0, y: 20 }}

@@ -1,23 +1,25 @@
 import { Response } from 'express';
 import bcrypt from 'bcrypt';
-import jwt from 'jsonwebtoken';
+import jwt, { SignOptions } from 'jsonwebtoken';
 import { User } from '../models/User';
 import { AuthRequest } from '../middleware/auth';
 import { AppError } from '../middleware/errorHandler';
 import { registerSchema, loginSchema } from '../validators/schemas';
 
 const SALT_ROUNDS = 10;
-const ACCESS_EXPIRY = process.env.JWT_ACCESS_EXPIRY || '15m';
-const REFRESH_EXPIRY = process.env.JWT_REFRESH_EXPIRY || '7d';
 
 const generateTokens = (userId: string) => {
-  const accessToken = jwt.sign({ userId }, process.env.JWT_ACCESS_SECRET!, {
-    expiresIn: ACCESS_EXPIRY,
-  });
-
-  const refreshToken = jwt.sign({ userId }, process.env.JWT_REFRESH_SECRET!, {
-    expiresIn: REFRESH_EXPIRY,
-  });
+  const accessToken = jwt.sign(
+    { userId }, 
+    process.env.JWT_ACCESS_SECRET as string, 
+    { expiresIn: (process.env.JWT_ACCESS_EXPIRY || '15m') as any }
+  );
+  
+  const refreshToken = jwt.sign(
+    { userId }, 
+    process.env.JWT_REFRESH_SECRET as string, 
+    { expiresIn: (process.env.JWT_REFRESH_EXPIRY || '7d') as any }
+  );
 
   return { accessToken, refreshToken };
 };
