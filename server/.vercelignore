@@ -1,0 +1,12 @@
+# Don't ignore source files needed for build
+!src
+!api
+!tsconfig.json
+!package.json
+
+# Ignore these
+node_modules
+.env.local
+.git
+dist
+coverage
